@@ -1,0 +1,11 @@
+commit 4e9b0638cb808e181f47bc961d89030ecc44f4e2
+Author: Konstantin <konstantin.nikolaenka@gmail.com>
+Date:   Tue Aug 3 19:59:24 2021 +0300
+
+    add status.txt
+
+commit c801a4ffd82047400a1d73b898b632dbfb1d5277
+Author: Konstantin <konstantin.nikolaenka@gmail.com>
+Date:   Tue Aug 3 19:50:41 2021 +0300
+
+    add .gitignore
