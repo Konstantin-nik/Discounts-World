@@ -1,0 +1,39 @@
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li.nav-tabs {
+    display: inline;
+}
+
+#site_name-tab {
+    width: 500px;
+    size: 50%;
+}
+
+#log-tab {
+    
+    border: 3px solid #7083c2;
+}
+
+#header-tabs {
+    max-width: 100%;
+    height: 10%;
+    border: 3px solid #7083c2;
+    background-color: aliceblue;
+}
+
+
+body {
+    height: 100%;
+    max-width: 80%;
+    background-color: darkgrey;
+}
