@@ -1,0 +1,8 @@
+Первый запрос ищет книги Кнута с названием "искусство программирования" и получает 5-ю из них
+https://openlibrary.org/search.json?author=Donald+Knuth&title=The+Art+of+Computer+Programming&limit=1&page=5
+ 
+Второй ищет все книги Кнута
+https://openlibrary.org/search/authors.json?q=Donald+Knuth&limit=3
+ 
+Третий по isbn получает книгу
+https://openlibrary.org/isbn/9780201038019.json

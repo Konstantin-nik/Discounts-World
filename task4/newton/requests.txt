@@ -1,0 +1,8 @@
+Первый запрос получает результат выражения 2^10 - 15^3
+https://newton.now.sh/api/v2/simplify/2^10-15^3
+
+Второй запрос получает интегралл 
+https://newton.now.sh/api/v2/integrate/x^2+2x
+
+Третий запрос получает cos(pi) = -1
+https://newton.now.sh/api/v2/cos/pi

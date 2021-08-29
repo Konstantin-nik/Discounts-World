@@ -81,30 +81,65 @@ body {
     background-color: rgb(255, 255, 255);
 }
 
-.post-container {
-    text-align: left;
-    position: relative;
-    z-index: 4;
-    margin: 5%;
-    margin-left: 7%;
-    padding-left: 1vw;
-    min-height: 50vw;
-    min-width: 80%;
-    max-width: 80%;
-    border: 0px solid rgb(175, 49, 49);
-    border-radius: 8vw;
-    border-left: 9vw solid #FFCC66;
-    background-color: #CCCCCC;
-}
-
 .move-container {
-    text-align: right;
+    text-align: center;
     position: relative;
     left: 16%;
     right: 16%;
     max-width: 68%;
     padding-bottom: 5rem;
     z-index: 4;
+}
+
+.post-container {
+    text-align: left;
+    position: relative;
+    z-index: 4;
+    margin: 5%;
+    margin-left: 7vw;
+    padding-left: 1vw;
+    min-height: 50vw;
+    min-width: 50vw;
+    max-width: 50vw;
+    border: 0px solid rgb(175, 49, 49);
+    border-radius: 3vw;
+    border-left: 5vw solid #FFCC66;
+    background-color: #CCCCCC;
+}
+
+.picture-container {
+    position: relative;
+    top: 1vw;
+    z-index: 5;
+    margin-top: 1vw;
+    padding-top: 1vw;
+    min-height: 25vw;
+    max-width: 43vw;
+    min-width: 43vw;
+    border-top-right-radius: 2vw;
+    background-color: #FF6666;
+}
+
+.text-container {
+    position: relative;
+    top: 1vw;
+    z-index: 5;
+    padding: 1vw;
+    min-height: 23vw;
+    min-width: 43vw;
+    max-width: 43vw;
+    border-bottom-right-radius: 2vw;
+    background-color: #CCFFFF;
+} 
+
+.first-text-line {
+    text-indent: 1vw;
+    margin-block-start: 0em;
+}
+
+.feedback-container {
+    position: relative;
+    bottom: 1vw;
 }
 
 /*
