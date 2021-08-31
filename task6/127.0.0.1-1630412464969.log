@@ -1,0 +1,308 @@
+adList
+(3) [{…}, {…}, {…}]
+getAds(0, 10)
+(3) [{…}, {…}, {…}]
+getAds(1, 10)
+(2) [{…}, {…}]
+getAds(1, 1)
+[{…}]
+getAds(0, 10, {vendor: "Chair Service"})
+[{…}]0: {id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}length: 1[[Prototype]]: Array(0)
+getAds(0, 10, {vendor: "Chair"})
+[]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»"})
+(2) [{…}, {…}]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["мебель"]})
+(2) [{…}, {…}]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["cnek"]})
+[]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["стул"]})
+[{…}]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["стул"], dateFrom:new Date('2020-03-15T22:00:00')})
+[{…}]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["стул"], dateFrom:new Date('2022-03-15T22:00:00')})
+[]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["мебель"], dateFrom:new Date('2022-03-15T22:00:00')})
+[]
+getAds(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["мебель"], dateFrom:new Date('2021-03-15T22:00:00')})
+(2) [{…}, {…}]0: {id: "2", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}1: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}length: 2[[Prototype]]: Array(0)
+getAd("1")
+{id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}
+getAd("2")
+{id: "2", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}
+getAd("3")
+{id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}
+getAd("4")
+undefined
+validateAd({
+
+   id: "4",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+true
+validateAd({
+
+   id: "1",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+false
+validateAd({
+
+   id: "5",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+true
+validateAd({
+
+   id: "5",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: '',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+false
+addAd({
+
+   id: "4",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: ['furniture', 'chairs'],
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: '',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+true
+addAd({
+
+   id: "4",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: ['furniture', 'chairs'],
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: '',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+false
+addAd({
+
+   id: '4',
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+false
+addAd({
+
+   id: '4',
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+false
+addAd({
+
+   id: '5',
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: new Date('2021-03-15T23:00:00'),
+
+   link: 'https://coolchairs.com',
+
+   vendor: 'Chair Service',
+
+   photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ })
+true
+adList
+(5) [{…}, {…}, {…}, {…}, {…}]0: {id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}1: {id: "2", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}2: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}3: {id: "4", description: "Скидка на стулья - до 15%", createdAt: Array(2), link: "https://coolchairs.com", vendor: "Chair Service", …}4: {id: "5", description: "Скидка на стулья - до 15%", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}length: 5[[Prototype]]: Array(0)
+editAd("1", ({
+
+   id: "1",
+
+   description: 'Скидка на стулья - до 15%',
+
+   createdAt: ['furniture', 'chairs'],
+
+   link: 'https://coolchairs.com',
+
+   photoLink: '',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ }))
+false
+editAd("1", ({
+
+   id: "1",
+
+   description: 'Скидка на стулья - до 15%',
+
+   link: 'https://coolchairs.com',
+
+   photoLink: '',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ }))
+true
+editAd("1", ({
+
+   id: "2",
+
+   description: 'Скидка на стулья - до 15%',
+
+   link: 'https://coolchairs.com',
+
+   photoLink: '',
+
+   validUntil: new Date('2021-06-01T23:00:00'),
+
+   discount: '15%',
+
+   hashTags: ['furniture', 'chairs']
+
+ }))
+false
+removeAd("6")
+false
+removeAd("2")
+true
+adList
+(4) [{…}, {…}, {…}, {…}]
+removeAd("1")
+true
+removeAd("3")
+true
+removeAd("4")
+true
+adList
+[{…}]0: {id: "5", description: "Скидка на стулья - до 15%", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}length: 1[[Prototype]]: Array(0)
+removeAd("5")
+true
