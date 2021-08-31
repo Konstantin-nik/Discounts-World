@@ -1,0 +1,104 @@
+var adList = new AdList ([
+        adItem = {
+            id: '1',
+            description: 'Скидка на стулья - до 15%',
+            createdAt: new Date('2020-03-15T23:00:00'),
+            link: 'https://coolchairs.com',
+            vendor: 'Chair Service',
+            photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+            hashTags: ['мебель', 'стулья'],
+            discount: '15%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        adItem = {
+            id: '2',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'раковина', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        adItem = {
+            id: '3',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'стул', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        }
+    ])
+undefined
+adList.add({
+            id: '4',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'раковина', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        })
+true
+adList.getPage(0, 10)
+(4) [{…}, {…}, {…}, {…}]
+adList.edit("1", {
+            id: '1',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        })
+true
+adList.getPage(0, 10)
+(4) [{…}, {…}, {…}, {…}]
+adList.remove("1")
+true
+adList.getPage(0, 10)
+(3) [{…}, {…}, {…}]
+adList.addAll([
+        {
+            id: '1',
+            description: 'Скидка на стулья - до 15%',
+            createdAt: new Date('2020-03-15T23:00:00'),
+            link: 'https://coolchairs.com',
+            vendor: 'Chair Service',
+            photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+            hashTags: ['мебель', 'стулья'],
+            discount: '15%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        {
+            id: '2',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'раковина', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        {
+            id: '81',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'стул', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        }
+    ]
+VM8343:38 Uncaught SyntaxError: missing ) after argument list

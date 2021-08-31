@@ -1,0 +1,63 @@
+adList.getPage(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["стул"]})
+VM6259:1 Uncaught TypeError: adList.getPage is not a function
+    at <anonymous>:1:8
+(anonymous) @ VM6259:1
+var adList = new AdList ([
+        adItem = {
+            id: '1',
+            description: 'Скидка на стулья - до 15%',
+            createdAt: new Date('2020-03-15T23:00:00'),
+            link: 'https://coolchairs.com',
+            vendor: 'Chair Service',
+            photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+            hashTags: ['мебель', 'стулья'],
+            discount: '15%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        adItem = {
+            id: '2',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'раковина', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        },
+        adItem = {
+            id: '3',
+            description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+            createdAt: new Date('2021-03-15T23:00:00'),
+            link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+            vendor: "ЧТУП «ДИСТ-ГРУПП»",
+            photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+            hashTags: ['мебель', 'стул', 'пьедестал'],
+            discount: '89,9%',
+            validUntil: new Date('2021-06-01T23:00:00'),
+            rating: 2
+        }
+    ])
+undefined
+adList.getPage(0, 10)
+(3) [{…}, {…}, {…}]0: {id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}1: {id: "2", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}2: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}length: 3[[Prototype]]: Array(0)
+adList.getPage(0, 1)
+[{…}]0: {id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}length: 1[[Prototype]]: Array(0)
+adList.getPage(0, 10, {hashTags:["стул"]})
+[{…}]0: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}length: 1[[Prototype]]: Array(0)
+adList.getPage(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»"})
+(2) [{…}, {…}]0: {id: "2", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}1: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}length: 2[[Prototype]]: Array(0)
+adList.getPage(0, 10, {vendor: "Chair Service"})
+[{…}]0: {id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}length: 1[[Prototype]]: Array(0)
+adList.getPage(0, 10, {vendor: "ЧТУП «ДИСТ-ГРУПП»", hashTags:["стул"]})
+[{…}]0: {id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}length: 1[[Prototype]]: Array(0)
+adList.get("1")
+{id: "1", description: "Скидка на стулья - до 15%", createdAt: Sun Mar 15 2020 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://coolchairs.com", vendor: "Chair Service", …}
+adList.get("4")
+undefined
+adList.get("3")
+{id: "3", description: "Form 500 пьедестал для раковины универсальный, цв. белый", createdAt: Mon Mar 15 2021 23:00:00 GMT+0300 (Москва, стандартное время), link: "https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30", vendor: "ЧТУП «ДИСТ-ГРУПП»", …}
+Navigated to http://127.0.0.1:5500/UI/index.html
+Navigated to http://127.0.0.1:5500/UI/index.html
