@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discounts Wold</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <script src="script.js"></script> 
     <header>
         <div id="nav-container">
             <ul class="nav navbar">
@@ -18,48 +18,26 @@
                     </a>
                 </li>
                 <div class="nav-right">
-                    <li class="nav"><a href="#contact">UserName</a></li>
-                    <li class="nav"><a href="#about">Exit</a></li>
+                    <li id="user-name" class="nav"><a href="#contact">UserName</a></li>
+                    <li class="nav"><a id="exit-button" href="#contact">Exit</a></li>
                 </div>
             </ul>
         </div>
     </header>
 
-    <div class="content-container">
+    <button id="add-button" class="add-button">Add Post</button>
+
+    <div class="content-container" id="content-container">
     </div>
 
-    <div class="move-container">
-
-        <div class="post-container">
-            <div class="picture-container">
-            </div>
-            <div class="text-container">
-            </div>
-            <div class="feedback-container">
-            </div>
-        </div>
-
-        <div class="post-container">
-            <div class="picture-container">
-            </div>
-            <div class="text-container">
-                <p class="first-text-line">This is the first</p>
-            </div>
-        </div>
-
-        <div class="post-container">
-            <div class="picture-container">
-            </div>
-            <div class="text-container">
-            </div>
-        </div>
-
-        <!-- <p>this is the paragraphed version of the</p>
-        <p>this is the paragraphed version of the</p>
-        <p>this is the paragraphed version of the</p>-->
+    <div id="cont-container" class="move-container">
     </div>
+
+    <p id="next-ten-posts" onclick="displayPostList()">Load next</p>
+    <script src="script.js"></script>
+    <script>displayPostList()</script>
     <footer>
-        <p> Hello World! </p>
+        <br> Discounts World </br>Nikolaenko Konstantin, 2 курс 9 группа, konstantin.nikolaenka@gmail.com </p>
     </footer>
 
 </body>

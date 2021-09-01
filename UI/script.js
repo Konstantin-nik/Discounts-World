@@ -1,4 +1,13 @@
-var adList = [];
+var loadCount = 0;
+var isLoggedIn = true;
+
+var filters = {
+    hashTags: [],
+    vendor: '',
+    dateFrom: undefined,
+    dateTo: undefined
+};
+
 var adItem = {
     id: '',                 //обязательное, уникальный
     description: '',        //обязательное
@@ -25,7 +34,8 @@ class AdList {
         discount: '',           //обязательное
         validUntil: new Date(), //обязательное
         rating: 0,              //необязательное
-        reviews: []             //необязательное
+        reviews: [],            //необязательное
+        isDelete: false
     };
 
     #adList = [
@@ -39,7 +49,7 @@ class AdList {
             hashTags: ['мебель', 'стулья'],
             discount: '15%',
             validUntil: new Date('2021-06-01T23:00:00'),
-            rating: 2
+            rating: 0
         },
         adItem = {
             id: '2',
@@ -51,7 +61,7 @@ class AdList {
             hashTags: ['мебель', 'раковина', 'пьедестал'],
             discount: '89,9%',
             validUntil: new Date('2021-06-01T23:00:00'),
-            rating: 2
+            rating: 0
         },
         adItem = {
             id: '3',
@@ -63,12 +73,21 @@ class AdList {
             hashTags: ['мебель', 'стул', 'пьедестал'],
             discount: '89,9%',
             validUntil: new Date('2021-06-01T23:00:00'),
-            rating: 2
+            rating: 0
         }
     ];
 
     constructor(adList) {
         this.#adList = adList.slice();
+    }
+
+    getSize() {
+        var size = this.#adList.length;
+        return size;
+    }
+
+    getFiltredSize(filterConfig) {
+        return this.getPage(0, this.getSize(), filterConfig).length;
     }
 
     addAll(adLists) {
@@ -235,6 +254,473 @@ class AdList {
     }
 }
 
+adList = new AdList([
+    adItem = {
+        id: '1',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2021-08-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        reviews: ["Супер!", "Отличный товар и скидка неплохая"],
+        isDelete: false
+    },
+    adItem = {
+        id: '2',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '3',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '4',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '5',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '6',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '7',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '8',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '9',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '10',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '11',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '12',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '13',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '14',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '15',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '16',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '17',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '18',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '19',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '20',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '21',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '22',
+        description: 'Скидка на стулья - до 15%',
+        createdAt: new Date('2020-03-15T23:00:00'),
+        link: 'https://coolchairs.com',
+        vendor: 'Chair Service',
+        photoLink: 'https://images.app.goo.gl/dgAFyP2cEduzkJUP9',
+        hashTags: ['мебель', 'стулья'],
+        discount: '15%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '23',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'раковина', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    },
+    adItem = {
+        id: '24',
+        description: 'Form 500 пьедестал для раковины универсальный, цв. белый',
+        createdAt: new Date('2021-03-15T23:00:00'),
+        link: 'https://minus50.by/product/form-500-pedestal-dlya-rakoviny-universalnyj-czv-belyj-1627459176-30',
+        vendor: "ЧТУП «ДИСТ-ГРУПП»",
+        photoLink: 'https://files.minus50.by/products/129c0ea0-0154-4b25-9964-dd83a1e0416c.JPEG',
+        hashTags: ['мебель', 'стул', 'пьедестал'],
+        discount: '89,9%',
+        validUntil: new Date('2021-06-01T23:00:00'),
+        rating: 0,
+        isDelete: false
+    }
+]);
 
 
 
+document.getElementById("exit-button").onclick = function () {
+    if (isLoggedIn) {
+        document.getElementById("exit-button").innerHTML = "Log in";
+        document.getElementById("user-name").setAttribute('class', 'hide');
+        isLoggedIn = false;
+        reload();
+    }
+    else {
+        document.getElementById("exit-button").innerHTML = "Exit";
+        document.getElementById("user-name").setAttribute('class', 'nav');
+        isLoggedIn = true;
+        reload();
+    }
+}
+
+function reload() {
+    document.getElementById("cont-container").remove()
+    let contContainer = document.createElement('div');
+    contContainer.setAttribute('id', 'cont-container');
+    contContainer.setAttribute('class', 'move-container');
+    document.getElementById("content-container").after(contContainer);
+    loadCount = 0;
+    adListSize = adList.getFiltredSize(filters);
+    nextPostsCount = adListSize - loadCount * 10;
+    if (adListSize - loadCount * 10 <= 0) {
+        var loadBut = document.getElementById("next-ten-posts");
+        loadBut.setAttribute('class', 'hide');
+    }
+    else {
+        var loadBut = document.getElementById("next-ten-posts");
+        loadBut.setAttribute('class', '');
+    }
+    displayPostList()
+}
+
+var adListSize = adList.getFiltredSize(filters);
+var nextPostsCount = adListSize - loadCount * 10;
+
+function displayPostList() {
+    adListSize = adList.getFiltredSize(filters);
+    nextPostsCount = adListSize - loadCount * 10;
+    if (nextPostsCount > 0) {
+        if (nextPostsCount > 10) {
+            nextPostsCount = 10;
+        }
+        var adToLoad = adList.getPage(loadCount * 10 - 1, 10);
+        for (let i = 0; i < nextPostsCount; i++) {
+            
+            let div = document.createElement('div');
+            div.setAttribute('class', 'post-container');
+            document.getElementById("cont-container").appendChild(div);
+
+            //let pictureDiv = document.createElement('div');
+            //pictureDiv.setAttribute('class', 'picture-container');
+            //div.appendChild(pictureDiv);
+
+            let picture = document.createElement('img');
+            picture.setAttribute('src', adToLoad[i].photoLink);
+            picture.setAttribute('class', 'picture-container');
+            div.appendChild(picture);
+
+            let textDiv = document.createElement('div');
+            textDiv.setAttribute('class', 'text-container');
+            textDiv.innerHTML = adToLoad[i].description;
+            div.appendChild(textDiv);
+
+            let link = document.createElement('a');
+            link.setAttribute('href', adToLoad[i].link);
+            link.innerHTML = "</br> <p> Ссылка на полное описание </p>";
+            textDiv.appendChild(link);
+
+            let vendorName = document.createElement('p');
+            vendorName.innerHTML = "Имя вендора: <strong>" + adToLoad[i].vendor + "</strong>";
+            textDiv.appendChild(vendorName);
+
+            let hashList = document.createElement('p');
+            hashList.innerHTML = "Список Хештегов: <strong>#" + adToLoad[i].hashTags.join(' #') + "</strong>";
+            textDiv.appendChild(hashList);
+
+            let discountSize = document.createElement('p');
+            discountSize.innerHTML = "Размер скидки: <strong>" + adToLoad[i].discount + "</strong>";
+            textDiv.appendChild(discountSize);
+
+            let valid = document.createElement('p');
+            valid.innerHTML = "Действует до: <strong>" + adToLoad[i].validUntil + "</strong>";
+            textDiv.appendChild(valid);
+
+            let rating = document.createElement('p');
+            rating.innerHTML = "Рейтинг: <strong>" + adToLoad[i].rating + "</strong>";
+            textDiv.appendChild(rating);
+
+            let reviews = document.createElement('p');
+            if (adToLoad[i].reviews === undefined) {
+                reviews.innerHTML = "Отзывы: <strong>Нет отзывов</strong>";
+            }
+            else if (adToLoad[i].reviews.length === 0) {
+                reviews.innerHTML = "Отзывы: <strong>Нет отзывов</strong>";
+            }
+            else {
+                reviews.innerHTML = "Отзывы: </br>• " + adToLoad[i].reviews.join('</br>• ');
+            }
+            textDiv.appendChild(reviews);
+
+            let postModifications = document.createElement('span');
+            postModifications.setAttribute('class', 'post-modifications');
+            textDiv.appendChild(postModifications);
+
+            let editPost = document.createElement('button');
+            editPost.textContent = "Edit";
+            if (isLoggedIn) {
+                editPost.setAttribute('class', 'post-button');
+            }
+            else {
+                editPost.setAttribute('class', 'post-button hide-but');
+            }
+            postModifications.appendChild(editPost);
+
+            let deletePost = document.createElement('button');
+            deletePost.textContent = "Delete";
+            if (isLoggedIn) {
+                deletePost.setAttribute('class', 'post-button');
+            }
+            else {
+                deletePost.setAttribute('class', 'post-button hide-but');
+            }
+            postModifications.appendChild(deletePost);
+
+            let leaveReview = document.createElement('button');
+            leaveReview.textContent = "Leave review";
+            leaveReview.setAttribute('class', 'post-button');
+            postModifications.appendChild(leaveReview);
+            //document.getElementById("cont-container").appendChild(div);
+        }
+        loadCount++;
+        if (adListSize - loadCount * 10 <= 0) {
+            var loadBut = document.getElementById("next-ten-posts");
+            loadBut.setAttribute('class', 'hide');
+        }
+    }
+}
+
+/*
+<div class="post-container">
+            <div class="picture-container">
+            </div>
+            <div class="text-container">
+            </div>
+            <div class="feedback-container">
+            </div>
+        </div>
+
+*/
