@@ -1,5 +1,12 @@
 var loadCount = 0;
-var isLoggedIn = true;
+var isLoggedIn = false;
+var user = {};
+
+var userList = [
+    { uname: "admin", pass: "admin", isVendor: false },
+    { uname: "chairservice", pass: "chair Service", isVendor: true, vendorName: "Chair Service" }
+
+]
 
 var filters = {
     hashTags: [],
@@ -81,6 +88,11 @@ class AdList {
         this.#adList = adList.slice();
     }
 
+    deletePost(id) {
+        this.get(id).isDelete = true;
+        return true;
+    }
+
     getSize() {
         var size = this.#adList.length;
         return size;
@@ -111,18 +123,28 @@ class AdList {
     getPage(skip = 0, top = 10, filterConfig) {
         var arr = this.#adList.slice();
         if (filterConfig === undefined) {
+            arr = arr.filter(function (number) {
+                if (number['isDelete'] === false) {
+                    return number;
+                }
+            });
             arr.sort(this.#compareDates);
             arr.splice(0, skip);
             arr = arr.slice(0, top);
             return arr;
         }
         else {
+            arr = arr.filter(function (number) {
+                if (number['isDelete'] === false) {
+                    return number;
+                }
+            });
             var filtredArr = arr;
             if (filterConfig['hashTags'] !== undefined) {
                 filterConfig['hashTags'].forEach(function (item, i, hash) {
                     filtredArr = filtredArr.filter(function (number) {
                         const even = (element) => element === item;
-                        if (number['hashTags'].some(even)) {
+                        if (number['hashTags'].some(even) && number['isDelete'] === false) {
                             return number;
                         }
                     });
@@ -570,20 +592,54 @@ adList = new AdList([
     }
 ]);
 
+document.getElementById("review-submit-button").onclick = function () {
+    let review = document.getElementById("review-input").value;
+    if (review === "") {
+        document.getElementById('review-form').style.display = 'none';
+    }
+    else {
+        document.getElementById("wrong-password").innerHTML = "Неверный логин и/или пароль";
+    }
+}
 
+document.getElementById("login-in-button").onclick = function () {
+    let login = document.getElementById("login-user-name").value;
+    let password = document.getElementById("login-password").value;
+    for (let i = 0; i < userList.length; i++) {
+        if ((userList[i].pass === password) && (userList[i].uname === login)) {
+            user.login = login;
+            user.password = password;
+            user.isVendor = userList[i].isVendor;
+            if (user.isVendor) {
+                user.vendorName = userList[i].vendorName;
+            }
+            document.getElementById("exit-button").innerHTML = "Exit";
+            document.getElementById("user-name").setAttribute('class', 'nav');
+            document.getElementById("wrong-password").innerHTML = "";
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById("user-name-login").innerHTML = user.login;
+            isLoggedIn = true;
+            reload();
+        }
+    }
+    if (isLoggedIn === false) {
+        document.getElementById("wrong-password").innerHTML = "Неверный логин и/или пароль";
+    }
+}
 
 document.getElementById("exit-button").onclick = function () {
     if (isLoggedIn) {
-        document.getElementById("exit-button").innerHTML = "Log in";
+        document.getElementById("exit-button").innerHTML = "Login";
         document.getElementById("user-name").setAttribute('class', 'hide');
         isLoggedIn = false;
         reload();
     }
     else {
+        document.getElementById('login-form').style.display = 'block';/*
         document.getElementById("exit-button").innerHTML = "Exit";
         document.getElementById("user-name").setAttribute('class', 'nav');
         isLoggedIn = true;
-        reload();
+        reload();//*/
     }
 }
 
@@ -619,7 +675,7 @@ function displayPostList() {
         }
         var adToLoad = adList.getPage(loadCount * 10 - 1, 10);
         for (let i = 0; i < nextPostsCount; i++) {
-            
+
             let div = document.createElement('div');
             div.setAttribute('class', 'post-container');
             document.getElementById("cont-container").appendChild(div);
@@ -634,7 +690,8 @@ function displayPostList() {
             div.appendChild(picture);
 
             let textDiv = document.createElement('div');
-            textDiv.setAttribute('class', 'text-container');
+            textDiv.setAttribute('id', adToLoad[i].id);
+            textDiv.setAttribute('class', 'text-container id-field');
             textDiv.innerHTML = adToLoad[i].description;
             div.appendChild(textDiv);
 
@@ -671,7 +728,7 @@ function displayPostList() {
                 reviews.innerHTML = "Отзывы: <strong>Нет отзывов</strong>";
             }
             else {
-                reviews.innerHTML = "Отзывы: </br>• " + adToLoad[i].reviews.join('</br>• ');
+                reviews.innerHTML = "Отзывы: </br>• " + adToLoad[i].reviews.slice(0, 5).join('</br>• ');
             }
             textDiv.appendChild(reviews);
 
@@ -681,8 +738,13 @@ function displayPostList() {
 
             let editPost = document.createElement('button');
             editPost.textContent = "Edit";
-            if (isLoggedIn) {
-                editPost.setAttribute('class', 'post-button');
+            if (isLoggedIn && user.isVendor) {
+                if (user.vendorName === adToLoad[i].vendor) {
+                    editPost.setAttribute('class', 'post-button');
+                }
+                else {
+                    editPost.setAttribute('class', 'post-button hide-but');
+                }
             }
             else {
                 editPost.setAttribute('class', 'post-button hide-but');
@@ -691,8 +753,17 @@ function displayPostList() {
 
             let deletePost = document.createElement('button');
             deletePost.textContent = "Delete";
-            if (isLoggedIn) {
-                deletePost.setAttribute('class', 'post-button');
+            deletePost.onclick = function () {
+                adList.deletePost(deletePost.parentNode.parentNode.id);
+                reload();
+            }
+            if (isLoggedIn && user.isVendor) {
+                if (user.vendorName === adToLoad[i].vendor) {
+                    deletePost.setAttribute('class', 'post-button');
+                }
+                else {
+                    deletePost.setAttribute('class', 'post-button hide-but');
+                }
             }
             else {
                 deletePost.setAttribute('class', 'post-button hide-but');
@@ -701,7 +772,15 @@ function displayPostList() {
 
             let leaveReview = document.createElement('button');
             leaveReview.textContent = "Leave review";
-            leaveReview.setAttribute('class', 'post-button');
+            leaveReview.onclick = function () {
+                document.getElementById('review-form').style.display = 'block';
+            }
+            if (isLoggedIn) {
+                leaveReview.setAttribute('class', 'post-button');
+            }
+            else {
+                leaveReview.setAttribute('class', 'post-button hide-but');
+            }
             postModifications.appendChild(leaveReview);
             //document.getElementById("cont-container").appendChild(div);
         }

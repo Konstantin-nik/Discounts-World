@@ -18,12 +18,57 @@
                     </a>
                 </li>
                 <div class="nav-right">
-                    <li id="user-name" class="nav"><a href="#contact">UserName</a></li>
-                    <li class="nav"><a id="exit-button" href="#contact">Exit</a></li>
+                    <li id="user-name" class="hide"><a href="#contact" id="user-name-login">UserName</a></li>
+                    <li class="nav"><a id="exit-button" href="#contact">Login</a></li>
                 </div>
             </ul>
         </div>
     </header>
+
+    <div id="login-form" class="modal">
+        <div class="modal-content animate" method="post">
+            <div class="login-form-container">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" id="login-user-name">
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" id="login-password">
+                <p id="wrong-password"></p>
+                <button id="login-in-button">Login</button>
+            </div>
+            <div class="login-form-container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('login-form').style.display='none'"
+                    class="cancelbtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="review-form" class="modal">
+        <div class="modal-content animate" method="post">
+            <div class="review-form-container">
+                <label for="review"><b>Your review</b></label>
+                <input type="text" placeholder="Enter Text" name="review" id="review-input">
+                <button id="review-submit-button" type="huh">Submit</button>
+            </div>
+            <div class="review-form-container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('review-form').style.display='none'"
+                    class="cancelbtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-post-form" class="modal">
+        <div class="modal-content animate" method="post">
+            <div class="edit-post-form-container">
+                <label for="review"><b>Your review</b></label>
+                <input type="text" placeholder="Enter Text" name="review">
+                <button type="huh">Submit</button>
+            </div>
+            <div class="review-form-container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('review-form').style.display='none'"
+                    class="cancelbtn">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <button id="add-button" class="add-button">Add Post</button>
 
