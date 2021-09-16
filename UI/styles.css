@@ -13,6 +13,8 @@ header {
     bottom: 0;
     top: 0;
     min-height: 50px;
+    margin: auto;
+    padding: auto;
     background-color: rgb(144, 202, 253);
     border-bottom: 10px solid rgb(137, 182, 250);
 }
@@ -56,6 +58,37 @@ li.nav a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+}
+
+#show-filters {
+    padding-right: 1vw;
+}
+
+#filter-form {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    background-color: #90afe9;
+}
+
+.filter-button {
+    min-width: 50px;
+    min-height: 12px;
+    border: 0px solid;
+    background-color: rgb(239, 244, 248);
+}
+
+.filter-button:hover {
+    background-color: rgb(203, 231, 255);
+}
+
+.filter-container-form span[type="filter"]{
+    margin: 15px;
+    display: inline-block;
 }
 
 body {
@@ -140,9 +173,12 @@ body {
 }
 
 .text-container {
+    word-wrap: break-word;
     font-size: 1vw;
     position: relative;
     z-index: 5;
+    padding-bottom: 6vw;
+    padding-right: 1vw;
     padding-left: 1vw;
     padding-top: 1vw;
     min-height: 22vw;
@@ -198,7 +234,7 @@ footer {
     background-color: rgba(114, 99, 214, 0.89);
     text-align: center;
     max-width: 100%;
-    max-height: 10vh;
+    max-height: 12vh;
     min-height: 10vh;
 }
 
@@ -256,6 +292,13 @@ footer {
     width: 70%;
 }
 
+.edit-modal-content {
+    background-color: #fefefe;
+    margin: 0% auto 2% auto;
+    border: 1px solid #888;
+    width: 70%;
+}
+
 .close:hover, .close:focus {
     color: red;
     cursor: pointer;
@@ -284,17 +327,20 @@ footer {
     }
 }
 
-@media screen and (max-width: 300px) {
+@media only screen and (max-width: 400px) {
+    .edit-post-form-container input[type=hashtag] {
+        width: 100%;
+    }
     .cancelbtn {
         width: 100%;
     }
 }
 
-.review-form-container {
+.login-form-container, .review-form-container, .edit-post-form-container {
     padding: 16px;
 }
 
-.review-form-container input[type=text] {
+.login-form-container input[type=text], input[type=password], .review-form-container input[type=text], .edit-post-form-container input[type=text], label[type=text] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -303,22 +349,7 @@ footer {
     box-sizing: border-box;
 }
 
-.review-form-container button[type=huh] {
-    background-color: #2864d4;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-.login-form-container {
-    padding: 16px;
-}
-
-.login-form-container input[type=text], input[type=password] {
-    width: 100%;
+.edit-post-form-container input[type=hashtag] {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -326,7 +357,7 @@ footer {
     box-sizing: border-box;
 }
 
-.login-form-container button {
+.login-form-container button, .review-form-container button[type=huh], .edit-post-form-container button[type=huh] {
     background-color: #2864d4;
     color: white;
     padding: 14px 20px;
@@ -341,7 +372,6 @@ footer {
 }
 
 .cancelbtn {
-    width: auto;
     padding: 10px 18px;
     background-color: #f44336;
 }
@@ -352,5 +382,53 @@ footer {
 }
 
 .hide {
+    display: none;
+}
+
+#drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    font-family: sans-serif;
+    margin: 10px auto;
+    padding: 20px;
+}
+
+#drop-area.highlight {
+    border-color: purple;
+}
+
+.drop-area-form p {
+    margin-top: 0;
+}
+
+.drop-area-form {
+    margin-bottom: 10px;
+}
+
+#gallery {
+    margin-top: 10px;
+}
+
+#gallery img {
+    width: 150px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.drop-area-form label[type="button"] {
+    display: inline-block;
+    padding: 10px;
+    background: #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.drop-area-form label[type="button"]:hover {
+    background: #ddd;
+}
+
+#fileElem {
     display: none;
 }

@@ -18,12 +18,42 @@
                     </a>
                 </li>
                 <div class="nav-right">
+                    <li class="nav"><a id="show-filters" href="#filter">Filters</a></li>
                     <li id="user-name" class="hide"><a href="#contact" id="user-name-login">UserName</a></li>
                     <li class="nav"><a id="exit-button" href="#contact">Login</a></li>
+
                 </div>
             </ul>
         </div>
     </header>
+
+    <div id="filter-form">
+        <div class="filter-container-form">
+            <form id="vendor-choose-form">
+                <span type="filter">
+                    <label for="vendor-choose">Choose vendor</label>
+                    <select id="vendor-choose" name="verse-choose">
+                    </select>
+                </span>
+                <span type="filter">
+                    <label for="date-from">Date from: </label>
+                    <input type="date" id="date-from" name="date" />
+                </span>
+                <span type="filter">
+                    <label for="date-to">Date to: </label>
+                    <input type="date" id="date-to" name="date" />
+                </span>
+                <span type="filter">
+                    <label id="hashtag-enter-field">Hashtags:</label>
+                    <input type="text" placeholder="Enter hashtags" id="edit-hashtag-list" name="review">
+                </span>
+                <!--<span type="filter">
+                    <button type="button" onclick="setFilter()" 
+                    class="filter-button">filter</button>
+                </span>-->
+            </form>
+        </div>
+    </div>
 
     <div id="login-form" class="modal">
         <div class="modal-content animate" method="post">
@@ -45,8 +75,11 @@
     <div id="review-form" class="modal">
         <div class="modal-content animate" method="post">
             <div class="review-form-container">
+                <label for="review"><b>Rating</b></label>
+                <input type="text" placeholder="Enter Number from 1 to 5" name="rate" id="rate-input">
                 <label for="review"><b>Your review</b></label>
                 <input type="text" placeholder="Enter Text" name="review" id="review-input">
+                <p id="wrong-review"></p>
                 <button id="review-submit-button" type="huh">Submit</button>
             </div>
             <div class="review-form-container" style="background-color:#f1f1f1">
@@ -57,14 +90,45 @@
     </div>
 
     <div id="edit-post-form" class="modal">
-        <div class="modal-content animate" method="post">
+        <div class="edit-modal-content animate" method="post">
             <div class="edit-post-form-container">
-                <label for="review"><b>Your review</b></label>
-                <input type="text" placeholder="Enter Text" name="review">
-                <button type="huh">Submit</button>
+                <label>
+                    <h2 style="margin-block-start: 1vw;margin-block-end: 0">
+                        <b id="edit-add-label">Edit Post</b>
+                    </h2>
+                </label></br>
+                <label type="text"><b>Vendor name: </b><span id="vendor-name"></span></br></label>
+                <label type="text"><b>Discount</b></br></label>
+                <hr color="black">
+                <div id="drop-area">
+                    <form class="drop-area-form">
+                        <p>Drag and drop</p>
+                        <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+                        <label type="button" for="fileElem">Choose image</label>
+                    </form>
+                    <div id="gallery"></div>
+                </div>
+                <label><b>Description</b></br></label>
+                <input type="text" placeholder="Enter Description, less than 250 characters" id="edit-description"
+                    name="review">
+                <label><b>Link</b></br></label>
+                <input type="text" placeholder="Enter Link to full description, less than 250 characters" id="edit-link"
+                    name="review">
+                <label><b>Hashtags</b></br></label>
+                <input type="text" placeholder="Enter hashtags, less than 20 characters" class="edit-hashtag"
+                    id="edit-hashtags" name="review">
+                <label><b></br>Date until</b></br></label>
+                <input type="text" placeholder="Until what date" id="edit-valid-until" name="review">
+                <label><b>Discount Size</b></br></label>
+                <input type="text" placeholder="1..100" id="edit-discount-size" name="review">
+                <p id="add-edit-error"></p>
+                <hr color="black">
+                <label type="text"><b>Date: </b><span id="edit-date"></span></br></label>
+
+                <button type="huh" id="edit-post-submit">Submit</button>
             </div>
             <div class="review-form-container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('review-form').style.display='none'"
+                <button type="button" onclick="document.getElementById('edit-post-form').style.display='none'"
                     class="cancelbtn">Cancel</button>
             </div>
         </div>

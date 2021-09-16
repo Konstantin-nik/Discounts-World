@@ -4,7 +4,12 @@ var user = {};
 
 var userList = [
     { uname: "admin", pass: "admin", isVendor: false },
-    { uname: "chairservice", pass: "chair Service", isVendor: true, vendorName: "Chair Service" }
+    {
+        uname: "chairservice", pass: "chair Service",
+        isVendor: true, vendorName: "Chair Service"
+    },
+    { uname: "1", pass: "1", isVendor: true, vendorName: "Chair Service" },
+    { uname: "chtup", pass: "chtupven", isVendor: true, vendorName: "ЧТУП «ДИСТ-ГРУПП»" }
 
 ]
 
@@ -16,32 +21,32 @@ var filters = {
 };
 
 var adItem = {
-    id: '',                 //обязательное, уникальный
-    description: '',        //обязательное
-    createdAt: new Date(),  //обязательное
-    link: '',               //обязательное
-    vendor: 'vendor',       //обязательное, не пустое
-    photoLink: '',          //необязательное
-    hashTags: [],           //обязательное
-    discount: '',           //обязательное
-    validUntil: new Date(), //обязательное
-    rating: 0,              //необязательное
-    reviews: []             //необязательное
+    id: '',                         //обязательное, уникальный
+    description: '',                //обязательное
+    createdAt: new Date(),          //обязательное
+    link: '',                       //обязательное
+    vendor: 'vendor',               //обязательное, не пустое
+    photoLink: '',                  //необязательное
+    hashTags: [],                   //обязательное
+    discount: '',                   //обязательное
+    validUntil: new Date(),         //обязательное
+    rating: 0,                      //необязательное
+    reviews: []                     //необязательное
 };
 
 class AdList {
     #adItem = {
-        id: '',                 //обязательное, уникальный
-        description: '',        //обязательное
-        createdAt: new Date(),  //обязательное
-        link: '',               //обязательное
-        vendor: 'vendor',       //обязательное, не пустое
-        photoLink: '',          //необязательное
-        hashTags: [],           //обязательное
-        discount: '',           //обязательное
-        validUntil: new Date(), //обязательное
-        rating: 0,              //необязательное
-        reviews: [],            //необязательное
+        id: '',                     //обязательное, уникальный
+        description: '',            //обязательное
+        createdAt: new Date(),      //обязательное
+        link: '',                   //обязательное
+        vendor: 'vendor',           //обязательное, не пустое
+        photoLink: '',              //необязательное
+        hashTags: [],               //обязательное
+        discount: '',               //обязательное
+        validUntil: new Date(),     //обязательное
+        rating: 0,                  //необязательное
+        reviews: [],                //необязательное
         isDelete: false
     };
 
@@ -116,6 +121,22 @@ class AdList {
         return nAdList;
     }
 
+    getFreeId() {
+        let find = false;
+        for (let i = 1; ; i++) {
+            find = true;
+            for (let j = 0; j < this.#adList.length; j++) {
+                if (parseInt(this.#adList[j].id, 10) === i) {
+                    find = false;
+                    break;
+                }
+            }
+            if (find === true) {
+                return i;
+            }
+        }
+    }
+
     #compareDates(a, b) {
         return b['createdAt'] - a['createdAt']
     }
@@ -143,8 +164,8 @@ class AdList {
             if (filterConfig['hashTags'] !== undefined) {
                 filterConfig['hashTags'].forEach(function (item, i, hash) {
                     filtredArr = filtredArr.filter(function (number) {
-                        const even = (element) => element === item;
-                        if (number['hashTags'].some(even) && number['isDelete'] === false) {
+                        const even = (element) => element === item || item === "";
+                        if (number['hashTags'].some(even)) {
                             return number;
                         }
                     });
@@ -173,6 +194,9 @@ class AdList {
                     }
                 });
             }
+            filtredArr.sort(this.#compareDates);
+            filtredArr.splice(0, skip);
+            filtredArr = filtredArr.slice(0, top);
             return filtredArr;
         }
     }
@@ -198,11 +222,11 @@ class AdList {
         if (
             (adItem['id'] === undefined || adItem['id'] === element['id'])
             && (adItem['vendor'] === undefined || adItem['vendor'] === element['vendor'])
-            && (adItem['createdAt'] === undefined
-                || adItem['createdAt'] === element['createdAt'])
+            && adItem['description'] !== "" && adItem['link'] !== ""
+            && adItem['hashTags'] !== ['']
         ) {
             if (adItem['description'] !== undefined) {
-                element['description'] = adItem['description'];
+                element['description'] = adItem['description'].slice(0, 250);
             }
             if (adItem['link'] !== undefined) {
                 element['link'] = adItem['link'];
@@ -250,11 +274,14 @@ class AdList {
                     || typeof adItem['photoLink'] === "undefined")
                 && typeof adItem['hashTags'] === "object"
                 && typeof adItem['discount'] === "string"
-                && typeof adItem['validUntil'] === "object"
+                && (typeof adItem['validUntil'] === "object"
+                    || typeof adItem['validUntil'] === "string")
                 && (typeof adItem['rating'] === "number"
                     || typeof adItem['rating'] === "undefined")
                 && (typeof adItem['reviews'] === "object"
                     || typeof adItem['reviews'] === "undefined")
+                && adItem['description'] !== "" && adItem['link'] !== ""
+                && adItem['hashTags'].length !== 0
             ) {
                 if (adList.get(adItem['id']) === undefined) {
                     return true;
@@ -274,6 +301,23 @@ class AdList {
         }
         return false;
     }
+
+    addReview(review, rate, id) {
+        var element = this.get(id);
+        if (element['reviews'] === undefined) {
+            element['reviews'] = [{ text: review, rate: rate, date: new Date() }];
+        }
+        else {
+            element['reviews'].push({ text: review, rate: rate, date: new Date() });
+        }
+        var rating = 0;
+        for (let i = 0; i < element['reviews'].length; i++) {
+            rating += element['reviews'][i].rate;
+        }
+        rating /= element['reviews'].length;
+        rating = Math.trunc(rating * 10) / 10;
+        element['rating'] = rating;
+    }
 }
 
 adList = new AdList([
@@ -288,7 +332,7 @@ adList = new AdList([
         discount: '15%',
         validUntil: new Date('2021-06-01T23:00:00'),
         rating: 0,
-        reviews: ["Супер!", "Отличный товар и скидка неплохая"],
+        reviews: [{ text: "Супер!", rate: 5, date: 15 }, { text: "Отличный товар и скидка неплохая", rate: 5, date: 15 }],
         isDelete: false
     },
     adItem = {
@@ -592,13 +636,228 @@ adList = new AdList([
     }
 ]);
 
-document.getElementById("review-submit-button").onclick = function () {
-    let review = document.getElementById("review-input").value;
-    if (review === "") {
-        document.getElementById('review-form').style.display = 'none';
+var isFilersS = false;
+document.getElementById("show-filters").onclick = function () {
+    if (isFilersS) {
+        document.getElementById('filter-form').style.display = 'none';
+        isFilersS = false;
     }
     else {
-        document.getElementById("wrong-password").innerHTML = "Неверный логин и/или пароль";
+        document.getElementById('filter-form').style.display = 'inline';
+        var myNode = document.getElementById('vendor-choose');
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+        let opt = document.createElement('option');
+        opt.innerHTML = "";
+        document.getElementById("vendor-choose").appendChild(opt);
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i].isVendor) {
+                opt = document.createElement('option');
+                opt.innerHTML = userList[i].vendorName;
+                document.getElementById("vendor-choose").appendChild(opt);
+            }
+        }
+        isFilersS = true;
+    }
+}
+
+var vendorChoose = document.querySelector('select');
+vendorChoose.onchange = function () {
+    var vendor = vendorChoose.value;
+    filters.vendor = vendor;
+    reload();
+};
+
+var dateFromChoose = document.getElementById("date-from");
+dateFromChoose.onchange = function () {
+    var dateFrom = dateFromChoose.value;
+    filters.dateFrom = new Date(dateFrom + "T00:00:00");
+    reload();
+};
+
+var dateToChoose = document.getElementById("date-to");
+dateToChoose.onchange = function () {
+    var dateTo = dateToChoose.value;
+    filters.dateTo = new Date(dateTo + "T00:00:00");
+    reload();
+};
+
+var hashtagChoose = document.getElementById("edit-hashtag-list");
+
+hashtagChoose.oninput = function () {
+    var hashTags = hashtagChoose.value;
+    filters.hashTags = hashTags.split(', ');
+    reload();
+};
+/*
+function setFilter() {
+    document.getElementById('filter-form').style.display = 'none';
+    isFilersS = false;
+    reload();
+}
+*/
+document.getElementById("add-button").onclick = function () {
+    imgFileUrl = '';
+    imgFileC = 0;
+    document.getElementById('edit-post-form').style.display = 'block';
+    while (document.getElementById('gallery').firstChild) {
+        document.getElementById('gallery').removeChild(myNode.firstChild);
+    }
+    document.getElementById('edit-post-form').setAttribute('hId', "");
+    document.getElementById('edit-add-label').innerHTML = "Add post";
+    document.getElementById('vendor-name').innerHTML = user.vendorName;
+    document.getElementById('edit-description').value = "";
+    document.getElementById('edit-link').value = "";
+    document.getElementById('edit-valid-until').value = "";
+    document.getElementById('edit-discount-size').value = "";
+    document.getElementById('edit-hashtags').value = "";
+    document.getElementById('edit-date').innerHTML = new Date();
+}
+
+document.getElementById("edit-post-submit").onclick = function () {
+    let adItem1 = {
+        description: document.getElementById('edit-description').value.slice(0, 250),
+        createdAt: new Date(document.getElementById('edit-date').innerHTML),
+        link: document.getElementById('edit-link').value,
+        photoLink: imgFileUrl,
+        vendor: user.vendorName,
+        discount: document.getElementById('edit-discount-size').value,
+        validUntil: document.getElementById('edit-valid-until').value,
+        hashTags: document.getElementById('edit-hashtags').value.split(', '),
+        rating: 0,
+        isDelete: false,
+        reviews: []
+    }
+    let r = parseInt(adItem1.discount, 10);
+    if (isNaN(r)) {
+        document.getElementById('add-edit-error').innerHTML = "Not correct discount";
+        return;
+    }
+    else if ((r > 100) || (r < 1)) {
+        document.getElementById('add-edit-error').innerHTML = "Not correct discount";
+        return;
+    }
+    for (let i = 0; i < adItem1.hashTags.length; i++) {
+        adItem1.hashTags[i] = adItem1.hashTags[i].trim();
+        if (adItem1.hashTags[i] === "" || adItem1.hashTags[i].length > 20) {
+            document.getElementById('add-edit-error').innerHTML = "Wrong hashtags";
+            return;
+        }
+    }
+    if (document.getElementById('edit-post-form').getAttribute('hId') === "") {
+        adItem1.id = adList.getFreeId().toString();
+        let isAdd = adList.add(adItem1);
+        if (isAdd) {
+            document.getElementById('edit-post-form').style.display = 'none';
+            document.getElementById('add-edit-error').innerHTML = "";
+            imgFileUrl = '';
+            imgFileC = 0;
+            document.getElementById('gallery').removeChild(document.getElementById('gallery').childNodes[0]);
+            reload();
+        }
+        else {
+            document.getElementById('add-edit-error').innerHTML = "Not correct input";
+        }
+    }
+    else {
+        adItem1.id = document.getElementById('edit-post-form').getAttribute('hId');
+        let isEdit = adList.edit(adItem1.id, adItem1);
+        if (isEdit) {
+            document.getElementById('edit-post-form').style.display = 'none';
+            document.getElementById('add-edit-error').innerHTML = "";
+            imgFileUrl = '';
+            imgFileC = 0;
+            document.getElementById('gallery').removeChild(document.getElementById('gallery').childNodes[0]);
+            reload();
+        }
+        else {
+            document.getElementById('add-edit-error').innerHTML = "Not correct input";
+        }
+    }
+    reload();
+}
+
+var imgFile;
+var imgFileUrl = '';
+var imgFileC = 0;
+{
+    let dropArea = document.getElementById('drop-area');
+    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ;['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+    ;['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+    function highlight(e) {
+        dropArea.classList.add('highlight');
+    }
+    function unhighlight(e) {
+        dropArea.classList.remove('highlight');
+    }
+
+    dropArea.addEventListener('drop', handleDrop, false)
+    function handleDrop(e) {
+        console.log(e);
+        let dt = e.dataTransfer;
+        let files = dt.files;
+        handleFiles(files);
+    }
+    function handleFiles(files) {
+        imgFile = files[0];
+        previewFile(imgFile);
+        console.log(files);
+        console.log(imgFile);
+    }
+    function previewFile(file) {
+        if (imgFileC === 0) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function () {
+                let img = document.createElement('img');
+                img.src = reader.result;
+                imgFileUrl = reader.result;
+                document.getElementById('gallery').appendChild(img);
+            }
+            imgFileC = 1;
+        }
+        else {
+            document.getElementById('gallery').removeChild(document.getElementById('gallery').childNodes[0]);
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = function () {
+                let img = document.createElement('img');
+                img.src = reader.result;
+                imgFileUrl = reader.result;
+                document.getElementById('gallery').appendChild(img);
+            }
+            imgFileC = 1;
+        }
+    }
+}
+
+document.getElementById("review-submit-button").onclick = function () {
+    let review = user.login + ": " + document.getElementById("review-input").value;
+    let rating = parseInt(document.getElementById("rate-input").value, 10);
+    if (isNaN(rating)) {
+        document.getElementById("wrong-review").innerHTML = "Wrong Rating";
+    }
+    else if ((rating > 5) || (rating < 1)) {
+        document.getElementById("wrong-review").innerHTML = "Wrong Rating";
+    }
+    else {
+        adList.addReview(review, rating, document.getElementById('review-form').getAttribute('hId'));
+        document.getElementById('review-form').style.display = 'none';
+        document.getElementById("wrong-review").innerHTML = "";
+        reload();
     }
 }
 
@@ -623,7 +882,7 @@ document.getElementById("login-in-button").onclick = function () {
         }
     }
     if (isLoggedIn === false) {
-        document.getElementById("wrong-password").innerHTML = "Неверный логин и/или пароль";
+        document.getElementById("wrong-password").innerHTML = "Wrong login or password";
     }
 }
 
@@ -669,11 +928,17 @@ var nextPostsCount = adListSize - loadCount * 10;
 function displayPostList() {
     adListSize = adList.getFiltredSize(filters);
     nextPostsCount = adListSize - loadCount * 10;
+    if (isLoggedIn && user.isVendor) {
+        document.getElementById("add-button").style.display = 'inline';
+    }
+    else {
+        document.getElementById("add-button").style.display = 'none';
+    }
     if (nextPostsCount > 0) {
         if (nextPostsCount > 10) {
             nextPostsCount = 10;
         }
-        var adToLoad = adList.getPage(loadCount * 10 - 1, 10);
+        var adToLoad = adList.getPage(loadCount * 10 - 1, 10, filters);
         for (let i = 0; i < nextPostsCount; i++) {
 
             let div = document.createElement('div');
@@ -714,7 +979,9 @@ function displayPostList() {
 
             let valid = document.createElement('p');
             valid.innerHTML = "Действует до: <strong>" + adToLoad[i].validUntil + "</strong>";
-            textDiv.appendChild(valid);
+            if (adToLoad[i].validUntil !== "") {
+                textDiv.appendChild(valid);
+            }
 
             let rating = document.createElement('p');
             rating.innerHTML = "Рейтинг: <strong>" + adToLoad[i].rating + "</strong>";
@@ -728,7 +995,14 @@ function displayPostList() {
                 reviews.innerHTML = "Отзывы: <strong>Нет отзывов</strong>";
             }
             else {
-                reviews.innerHTML = "Отзывы: </br>• " + adToLoad[i].reviews.slice(0, 5).join('</br>• ');
+                var revM = adToLoad[i].reviews.slice();
+                revM.reverse();
+                revM = revM.slice(0, 5);
+                var str = "Отзывы: ";
+                for (let i = 0; i < revM.length; i++) {
+                    str = str.concat("</br>• " + revM[i].rate + "/5 " + revM[i].text);
+                }
+                reviews.innerHTML = str;
             }
             textDiv.appendChild(reviews);
 
@@ -738,6 +1012,22 @@ function displayPostList() {
 
             let editPost = document.createElement('button');
             editPost.textContent = "Edit";
+            editPost.onclick = function () {
+                imgFileUrl = '';
+                imgFileC = 0;
+                document.getElementById('edit-post-form').style.display = 'block';
+                while (document.getElementById('gallery').firstChild) {
+                    document.getElementById('gallery').removeChild(myNode.firstChild);
+                } document.getElementById('edit-post-form').setAttribute('hId', adToLoad[i].id);
+                document.getElementById('edit-add-label').innerHTML = "Edit post";
+                document.getElementById('vendor-name').innerHTML = adToLoad[i].vendor;
+                document.getElementById('edit-description').value = adToLoad[i].description.valueOf();
+                document.getElementById('edit-link').value = adToLoad[i].link;
+                document.getElementById('edit-hashtags').value = adToLoad[i].hashTags.join(', ');
+                document.getElementById('edit-valid-until').value = adToLoad[i].validUntil;
+                document.getElementById('edit-discount-size').value = adToLoad[i].discount.split('%')[0];
+                document.getElementById('edit-date').innerHTML = adToLoad[i].createdAt;
+            }
             if (isLoggedIn && user.isVendor) {
                 if (user.vendorName === adToLoad[i].vendor) {
                     editPost.setAttribute('class', 'post-button');
@@ -774,6 +1064,7 @@ function displayPostList() {
             leaveReview.textContent = "Leave review";
             leaveReview.onclick = function () {
                 document.getElementById('review-form').style.display = 'block';
+                document.getElementById('review-form').setAttribute('hId', adToLoad[i].id);
             }
             if (isLoggedIn) {
                 leaveReview.setAttribute('class', 'post-button');
@@ -792,14 +1083,3 @@ function displayPostList() {
     }
 }
 
-/*
-<div class="post-container">
-            <div class="picture-container">
-            </div>
-            <div class="text-container">
-            </div>
-            <div class="feedback-container">
-            </div>
-        </div>
-
-*/
