@@ -162,15 +162,17 @@ body {
 
 .picture-container {
     position: relative;
+    padding: auto;
     z-index: 5;
     margin-top: 1vw;
     min-height: 25vw;
     max-height: 25vw;
-    min-width: 43vw;
-    max-width: 43vw;
-    border-top-right-radius: 2vw;
+    min-width: auto;
+    max-width: 41vw;
+    border-top-right-radius: 0vw;
     background-color: #FF6666;
 }
+
 
 .text-container {
     word-wrap: break-word;
